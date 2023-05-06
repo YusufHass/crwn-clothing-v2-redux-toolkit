@@ -6,7 +6,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import logger from 'redux-logger';
 
 import { rootReducer } from './root-reducer';
-
 const middleWares = [process.env.NODE_ENV === 'development' && logger].filter(
   Boolean
 );
@@ -34,7 +33,17 @@ export const store = configureStore({
   //adding middlewares in react-toolkit is easy
   //react-toolkit has a default middleware which is redux-thunk and if we add 
   //any middleware then the default mildleware void 
-  middleware: middleWares
+  // middleware: middleWares
+
+
+    middleware: (getDefaultMiddleware)=> getDefaultMiddleware({
+      //this will check the serialization and ignore it and doesnt show any error
+      serializableCheck:false,
+    })
+    //this concate the middleware we declare above and shows the logger and the value
+    //on the console
+    .concat(middleWares),
+
 });
 // export const store = createStore(
 //   persistedReducer,
